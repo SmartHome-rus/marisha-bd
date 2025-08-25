@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffeaa7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Сказочная Страница</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(45deg, #ffeaa7, #fab1a0, #fd79a8, #e17055);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .book-page {
+            background: #fefefe;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 30px rgba(0, 0, 0, 0.2),
+                inset 0 0 20px rgba(255, 215, 0, 0.1),
+                0 0 60px rgba(255, 182, 193, 0.3);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1000px) rotateY(-2deg);
+            transition: transform 0.3s ease;
+        }
+
+        .book-page:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .book-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 80% 20%, rgba(173, 216, 230, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 224, 0.3) 0%, transparent 20%);
+            pointer-events: none;
+        }
+
+        .decorative-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffa726) 1;
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .image-container {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .fairy-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.2),
+                0 0 20px rgba(255, 215, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fairy-image:hover {
+            transform: scale(1.02);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .text-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .fairy-text {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #2d3436;
+            text-align: center;
+            margin: 0 auto;
+            max-width: 450px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            position: relative;
+        }
+
+        .fairy-text::before {
+            content: '"';
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: rgba(255, 107, 107, 0.6);
+            position: absolute;
+            top: -20px;
+            left: -30px;
+            font-weight: 600;
+        }
+
+        .fairy-text::after {
+            content: '"';
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: rgba(255, 107, 107, 0.6);
+            position: absolute;
+            bottom: -40px;
+            right: -30px;
+            font-weight: 600;
+        }
+
+        .sparkle {
+            position: absolute;
+            color: #ffd700;
+            font-size: 1.5rem;
+            animation: sparkle 2s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .sparkle:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 20%; right: 10%; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { bottom: 30%; left: 10%; animation-delay: 1s; }
+        .sparkle:nth-child(4) { bottom: 15%; right: 20%; animation-delay: 1.5s; }
+        .sparkle:nth-child(5) { top: 50%; left: 5%; animation-delay: 0.7s; }
+        .sparkle:nth-child(6) { top: 40%; right: 5%; animation-delay: 1.2s; }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                background-attachment: fixed;
+            }
+            
+            .book-page {
+                padding: 20px;
+                margin: 5px;
+                transform: none;
+                border-radius: 10px;
+                box-shadow: 
+                    0 0 20px rgba(0, 0, 0, 0.15),
+                    inset 0 0 15px rgba(255, 215, 0, 0.1);
+            }
+            
+            .book-page:hover {
+                transform: none;
+            }
+            
+            .decorative-border {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                border-width: 2px;
+            }
+            
+            .image-container {
+                margin-bottom: 20px;
+            }
+            
+            .fairy-image {
+                border-radius: 10px;
+                max-height: 40vh;
+                object-fit: cover;
+            }
+            
+            .fairy-text {
+                font-size: 1.1rem;
+                line-height: 1.7;
+                max-width: 100%;
+                padding: 0 10px;
+            }
+            
+            .fairy-text::before,
+            .fairy-text::after {
+                font-size: 2.5rem;
+            }
+            
+            .fairy-text::before {
+                top: -10px;
+                left: -15px;
+            }
+            
+            .fairy-text::after {
+                bottom: -25px;
+                right: -15px;
+            }
+            
+            .sparkle {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .book-page {
+                padding: 15px;
+                margin: 0;
+                min-height: 90vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .decorative-border {
+                top: 8px;
+                left: 8px;
+                right: 8px;
+                bottom: 8px;
+            }
+            
+            .image-container {
+                margin-bottom: 15px;
+            }
+            
+            .fairy-image {
+                max-height: 35vh;
+                width: 100%;
+            }
+            
+            .fairy-text {
+                font-size: 1rem;
+                line-height: 1.6;
+                padding: 0 5px;
+            }
+            
+            .fairy-text::before,
+            .fairy-text::after {
+                font-size: 2rem;
+                opacity: 0.7;
+            }
+            
+            .fairy-text::before {
+                top: -8px;
+                left: -10px;
+            }
+            
+            .fairy-text::after {
+                bottom: -20px;
+                right: -10px;
+            }
+            
+            .sparkle {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .book-page {
+                padding: 12px;
+            }
+            
+            .fairy-text {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .fairy-text::before,
+            .fairy-text::after {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .fairy-image:hover {
+                transform: none;
+            }
+            
+            .book-page:hover {
+                transform: perspective(1000px) rotateY(-2deg);
+            }
+            
+            .fairy-image {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-page">
+        <div class="decorative-border"></div>
+        
+        <!-- Sparkle effects -->
+        <div class="sparkle">✨</div>
+        <div class="sparkle">⭐</div>
+        <div class="sparkle">✨</div>
+        <div class="sparkle">⭐</div>
+        <div class="sparkle">✨</div>
+        <div class="sparkle">⭐</div>
+        
+        <div class="image-container">
+            <img src="1st.png" alt="Сказочное изображение" class="fairy-image">
+        </div>
+        
+        <div class="text-container">
+            <p class="fairy-text">
+                Мир суеты смолкает вдруг,<br>
+                И рвётся беспокойства круг.<br>
+                Здесь, на мгновение в тишине,<br>
+                Находишь мир в своей душе.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffeaa7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Поиск Сокровищ - Добро Пожаловать</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(45deg, #ffecd2, #fcb69f, #ff9a9e, #fecfef, #fecfef, #ffecd2);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .book-page {
+            background: #fefefe;
+            max-width: 700px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 40px rgba(0, 0, 0, 0.2),
+                inset 0 0 25px rgba(255, 236, 210, 0.2),
+                0 0 80px rgba(255, 154, 158, 0.3);
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1000px) rotateY(-1deg);
+            transition: transform 0.3s ease;
+        }
+
+        .book-page:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .book-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 80%, rgba(255, 236, 210, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 70% 20%, rgba(252, 182, 159, 0.2) 0%, transparent 35%),
+                radial-gradient(circle at 50% 50%, rgba(254, 207, 239, 0.15) 0%, transparent 30%);
+            pointer-events: none;
+        }
+
+        .decorative-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 4px solid;
+            border-image: linear-gradient(45deg, #ff9a9e, #fecfef, #ffecd2, #fcb69f, #ff9a9e) 1;
+            border-radius: 10px;
+            pointer-events: none;
+            animation: borderGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.7; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.2); }
+        }
+
+        .image-container {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .fairy-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.2),
+                0 0 30px rgba(255, 154, 158, 0.4),
+                0 0 50px rgba(252, 182, 159, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fairy-image:hover {
+            transform: scale(1.02);
+            box-shadow: 
+                0 20px 45px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(255, 154, 158, 0.6),
+                0 0 70px rgba(252, 182, 159, 0.5);
+        }
+
+        .text-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .welcome-text {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #2d3436;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+        }
+
+        .start-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            color: #2d3436;
+            text-decoration: none;
+            border-radius: 50px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.2),
+                0 0 20px rgba(255, 154, 158, 0.4);
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255, 154, 158, 0.3);
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .start-button:hover::before {
+            left: 100%;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(255, 154, 158, 0.6);
+            background: linear-gradient(45deg, #fecfef, #ff9a9e);
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 1.8rem;
+            animation: sparkle 3s infinite;
+            pointer-events: none;
+        }
+
+        .sparkle:nth-child(1) { 
+            top: 8%; left: 12%; 
+            animation-delay: 0s; 
+            color: #ff9a9e;
+        }
+        .sparkle:nth-child(2) { 
+            top: 15%; right: 8%; 
+            animation-delay: 0.8s; 
+            color: #fecfef;
+        }
+        .sparkle:nth-child(3) { 
+            bottom: 25%; left: 8%; 
+            animation-delay: 1.6s; 
+            color: #fcb69f;
+        }
+        .sparkle:nth-child(4) { 
+            bottom: 12%; right: 15%; 
+            animation-delay: 2.4s; 
+            color: #ffecd2;
+        }
+        .sparkle:nth-child(5) { 
+            top: 45%; left: 3%; 
+            animation-delay: 1.2s; 
+            color: #ff9a9e;
+        }
+        .sparkle:nth-child(6) { 
+            top: 35%; right: 3%; 
+            animation-delay: 2s; 
+            color: #fecfef;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(360deg); }
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                background-attachment: fixed;
+            }
+            
+            .book-page {
+                padding: 30px;
+                margin: 5px;
+                transform: none;
+                border-radius: 10px;
+                box-shadow: 
+                    0 0 25px rgba(0, 0, 0, 0.15),
+                    inset 0 0 20px rgba(255, 236, 210, 0.15);
+            }
+            
+            .book-page:hover {
+                transform: none;
+            }
+            
+            .decorative-border {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                border-width: 3px;
+            }
+            
+            .image-container {
+                margin-bottom: 30px;
+            }
+            
+            .fairy-image {
+                border-radius: 15px;
+                max-height: 40vh;
+                object-fit: cover;
+            }
+            
+            .welcome-title {
+                font-size: 1.6rem;
+                margin-bottom: 15px;
+            }
+            
+            .welcome-text {
+                font-size: 1.1rem;
+                line-height: 1.5;
+                margin-bottom: 25px;
+                padding: 0 10px;
+            }
+            
+            .start-button {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+            
+            .sparkle {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .book-page {
+                padding: 20px;
+                margin: 0;
+                min-height: 90vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .decorative-border {
+                top: 8px;
+                left: 8px;
+                right: 8px;
+                bottom: 8px;
+            }
+            
+            .image-container {
+                margin-bottom: 20px;
+            }
+            
+            .fairy-image {
+                max-height: 35vh;
+                width: 100%;
+            }
+            
+            .welcome-title {
+                font-size: 1.4rem;
+                margin-bottom: 12px;
+            }
+            
+            .welcome-text {
+                font-size: 1rem;
+                line-height: 1.4;
+                margin-bottom: 20px;
+                padding: 0 5px;
+            }
+            
+            .start-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+            
+            .sparkle {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .book-page {
+                padding: 15px;
+            }
+            
+            .welcome-title {
+                font-size: 1.2rem;
+            }
+            
+            .welcome-text {
+                font-size: 0.9rem;
+                line-height: 1.3;
+            }
+            
+            .start-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .fairy-image:hover {
+                transform: none;
+            }
+            
+            .book-page:hover {
+                transform: perspective(1000px) rotateY(-1deg);
+            }
+            
+            .fairy-image {
+                transition: none;
+            }
+            
+            .start-button:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-page">
+        <div class="decorative-border"></div>
+        
+        <!-- Sparkle effects -->
+        <div class="sparkle">🌟</div>
+        <div class="sparkle">✨</div>
+        <div class="sparkle">🎭</div>
+        <div class="sparkle">🏰</div>
+        <div class="sparkle">🌟</div>
+        <div class="sparkle">✨</div>
+        
+        <div class="image-container">
+            <img src="landing.png" alt="Добро пожаловать на поиск сокровищ" class="fairy-image">
+        </div>
+        
+        <div class="text-container">
+            <h1 class="welcome-title">Добро пожаловать на поиск сокровищ</h1>
+            <p class="welcome-text">Отгадай все загадки и найди свой клад!</p>
+            <a href="index.html" class="start-button">🚀 Начать Приключение</a>
+        </div>
+    </div>
+</body>
+</html>
